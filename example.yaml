@@ -1,0 +1,16 @@
+name: "dennis"
+    colors:
+      - "red"
+      - "blue"
+      - "green"
+      - "yellow"
+      key: "value"
+        - item1
+        - item2
+name: "dennis" 
+age: 18
+config:
+  key: "value"
+  list:
+    - item1
+    - item2
