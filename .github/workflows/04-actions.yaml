@@ -21,4 +21,4 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        working-directory: 4-using-actions/typescript
+        working-directory: 4-using-actions/react-app
