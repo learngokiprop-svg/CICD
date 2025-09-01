@@ -2,8 +2,11 @@ name: 05-1-Event filters and Activity types
 
 on:
     pull_request:
-        types: [closed]
-        branches: [main]
+        types: 
+            - opened
+            - synchronize
+        branches: 
+            - main
         
 jobs:
     echo:
