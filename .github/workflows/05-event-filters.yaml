@@ -5,7 +5,7 @@ on:
         types: 
             - opened
             - synchronize
-        branches: 
+        branches:   
             - main
         
 jobs:

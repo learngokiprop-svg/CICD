@@ -1,9 +1,10 @@
 name: 04 - using actions
 
 on:
-    push:
-    schedule:
-        - cron: '*/5 * * * *'
+  workflow_dispatch:  
+  # push:
+    # schedule:
+        # - cron: '*/5 * * * *'
 jobs:
   build:
     runs-on: ubuntu-latest
