@@ -1,0 +1,34 @@
+name: 08 -Variables
+
+on: [push, workflow_dispatch]
+env:
+  WORKFLOW_VAR: "I am a workflow variable"
+  OVERRIDE_VAR: "I will be overridden"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      JOB_VAR: "I am a job-level variable"
+      OVERRIDE_VAR: "I will be overridden at job level"
+    steps:
+      - name: Print Env Variables
+        env:
+          STEP_VAR1: "I am a step var!"
+          STEP_VAR2: "I am another step var!"
+          OVERRIDE_VAR: "I will be overridden at step level"
+        run: |
+            echo $STEP_VAR1
+            echo $STEP_VAR2
+            echo "Step variables ${{ env.STEP_VAR1 }} and ${{ env.STEP_VAR2 }}"
+            echo "Step variables ${{ env.JOB_VAR }}"
+            echo "Step variables ${{ env.JOB_VAR }}"
+            echo "Step variables ${{ env.WORKFLOW_VAR }}"
+            echo "Step variables ${{ env.OVERRIDE_VAR }}"
+
+      - name: Override Example
+        env:
+          OVERRIDE_VAR: "I am the final overridden variable"
+        run: |
+            echo "Final override: ${{ env.OVERRIDE_VAR }}"
+            echo "Final override: $OVERRIDE_VAR"
