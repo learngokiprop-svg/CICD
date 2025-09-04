@@ -1,0 +1,38 @@
+name: 09 - Exploring Functions
+
+on :
+    pull_request:
+    workflow_dispatch:
+
+jobs:
+    explore-functions:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Failing Example
+              run: |
+                echo "This step will fail"
+                exit 1
+            - name: I will be skipped
+              if: ${{ success() }}
+              run: echo "This step runs only if the previous step succeeded"
+            - name: I run even if the previous step failed
+              if: ${{ always() }}
+              run: echo "This step runs regardless of the previous step's outcome"
+            - name: I will be executed
+              if: ${{ failure() }}
+              run: echo "This step runs only if the previous step failed"
+            - name: I will be executed if there is no failure
+              if: ${{ !failure() }}
+              run: echo "This step runs only if the previous step did not fail"
+            - name: Bug Fix Example
+              run: |
+                echo "This step simulates a bug fix"
+                if : ${{ contains(github.event.pull_request.title, 'fix') }}
+                then
+                  echo "Bug fix detected in PR title"
+                  exit 0
+                else
+                  echo "No bug fix detected"
+                  exit 1
+                fi
+                  
