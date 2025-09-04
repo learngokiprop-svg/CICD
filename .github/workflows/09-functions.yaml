@@ -35,4 +35,13 @@ jobs:
                   echo "No bug fix detected"
                   exit 1
                 fi
-                  
+
+            - name: I  will if not cancelled
+              if: ${{ !cancelled() }}
+              run: echo "This step runs only if the workflow was cancelled"
+            
+            - name: PR Label Check
+              run: | 
+                cat << EOF
+                ${{ toJson(github.event.pull_request.labels)}}
+                EOF                  
