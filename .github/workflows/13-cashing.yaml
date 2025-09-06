@@ -1,0 +1,48 @@
+name: 12 - cashing dependencies
+
+# caching allows us ton store files and later retrieeve them based on a key. Workflows can access the cache from their branch or from default branch
+# workflow run starts -> Executes cache step -> cache matching key?  -> if yes, restore cache -> run build steps -> save cache
+#                                                                                          -> if no, run build steps -> save cache
+
+on:
+    workflow_dispatch:
+        inputs:
+            use-cache:
+                type: boolean
+                description: 'Set to true to use cache'
+                default: true
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        defaults:
+          run:
+            working-directory: 13-cashing/react-app
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+            - name: Set up Node.js
+              uses: actions/setup-node@v3   
+              with:
+                node-version: '20.x'
+            # - name: Cache Node.js modules
+            #   if: ${{ inputs.use-cache }}
+            #   uses: actions/cache@v3
+            #   with: 
+            - name: install dependencies
+              run: npm ci
+            - name: Run build
+              run: npm run build
+            - name : Run tests
+              run: npm run test
+            #   working-directory: 13-cashing/react-app
+            - name: Print folder structure
+              run: ls -R
+            - name: Print Node modules
+              run: ls -R node_modules
+            - name: Print package-lock.json
+              run: cat package-lock.json
+            - name: Deploying application
+              run: echo "Deploying application..."
+            
+        
