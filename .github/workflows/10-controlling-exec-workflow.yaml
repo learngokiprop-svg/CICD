@@ -10,6 +10,7 @@ on:
 jobs:
     lint-build:
         runs-on: ubuntu-latest
+        continue-on-error: true
         steps:
             - name: Lint and Build
               run: echo "Starting lint and build process..."
