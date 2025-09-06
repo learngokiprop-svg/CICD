@@ -11,6 +11,16 @@ on:
                 type: boolean
                 description: 'Set to true to use cache'
                 default: true
+            node-version:
+                description: 'Node.js version to use'
+                required: true
+                default: '20.x'
+                type: choice
+                options:
+                  - '16'
+                  - '18'
+                  - '20'
+                  - '22'
 
 jobs:
     build:
