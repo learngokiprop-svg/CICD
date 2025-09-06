@@ -1,0 +1,57 @@
+name: 11 - Inputs
+
+on: 
+    workflow_dispatch:
+        inputs:
+            target:
+                description: 'Deployment environment'
+                required: true
+                default: 'staging'
+                type: choice
+                options:
+                  - staging
+                  - production
+            version:
+                description: 'Version to deploy'
+                required: true
+                default: '1.0.0'
+            dry-run:
+                description: 'Skip deployment step and print output only'
+                required: false
+                type: boolean
+                default: false
+            tag:
+                description: 'Release from which to build and deploy'
+                required: true
+                type: choice
+                options:
+                  - v1.0
+                  - v1.1
+                  - v2.0   
+                default: 'v1.0'
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Display Input Values
+              run: |
+                echo "Environment: ${{ inputs.target }}"
+                echo "Version: ${{ inputs.version }}"
+                echo "Building from: ${{ inputs.tag }}"
+
+    deploy:
+        runs-on: ubuntu-latest
+        if: ${{ !inputs.dry-run }}
+        environment: ${{ inputs.target }}
+        steps:
+            - name: Deploy 
+            #   run: |
+            #     echo "Preparing to deploy version ${{ inputs.version }} to ${{ inputs.target }} environment"
+            #     if [ "${{ inputs.dry-run }}" = true ]; then
+            #       echo "Dry run enabled. Skipping deployment."
+            #     else
+            #       echo "Executing deployment..."
+            #       # Add deployment commands here
+            #     fi
+              run: echo "Deploying version ${{ inputs.version }} to ${{ inputs.target }} environment"
