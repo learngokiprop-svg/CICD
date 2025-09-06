@@ -34,12 +34,21 @@ jobs:
             - name: Set up Node.js
               uses: actions/setup-node@v3   
               with:
-                node-version: '20.x'
+                node-version: ${{ inputs.node-version }}
             # - name: Cache Node.js modules
             #   if: ${{ inputs.use-cache }}
             #   uses: actions/cache@v3
             #   with: 
+            - name: Download cached dependencies if available
+              uses: actions/cache@v3
+              if: ${{ inputs.use-cache }}
+              id: cache-node-modules
+              with:
+                path: 13-caching/react-app/node_modules
+                key: deps-node-modules-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+
             - name: install dependencies
+              if: ${{ inputs.use-cache && steps.cache-node-modules.outputs.cache-hit != 'true' }}
               run: npm ci
             - name: Run build
               run: npm run build
