@@ -33,7 +33,7 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                 name: app
-                path: 14-caching/react-app/build
+                path: 14-cashing/react-app/build
     deploy:
         runs-on: ubuntu-latest
         needs: test-build
@@ -42,6 +42,6 @@ jobs:
               uses: actions/download-artifact@v4
               with:
                 name: app
-                path: 14-caching/react-app/build
+                path: 14-cashing/react-app/build
             - name: Show folder structure
               run: ls -R 
