@@ -40,6 +40,7 @@ jobs:
               run: echo "Results uploaded for Node.js ${{ matrix.node-version }} on ${{ matrix.os }}"
              
     test-multiple-versions:
+        name: "${{ matrix.os }} - Node.js ${{ matrix.node-version }} - Shape: ${{ matrix.shape }} - Color: ${{ matrix.color }} - Size: ${{ matrix.size }} - Opacity: ${{ matrix.opacity}}"
         runs-on: ubuntu-latest
         strategy:
             matrix:
@@ -54,16 +55,10 @@ jobs:
                     - color: blue
                       opacity: 75
                     - opacity: 50
-
-                    
-        defaults:
-          run:
-            working-directory: 15-matrices/react-app
         steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
-            - name: Set up Node.js
-              uses: actions/setup-node@v3   
-              with:
-                node-version: ${{ matrix.node-version }}
+            - name: Dummy step to show matrix values
+              run: |
+                echo "Running on ${{ matrix.os }} with Node.js ${{ matrix.node-version }}"
+                echo "Shape: ${{ matrix.shape }}, Color: ${{ matrix.color }}, Size: ${{ matrix.size }}, Opacity: ${{ matrix.opacity }}"
+              
             
