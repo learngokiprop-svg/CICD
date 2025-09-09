@@ -1,0 +1,41 @@
+name: 15- Exploring Matrices
+
+on: 
+    workflow_dispatch:
+
+
+jobs:
+    backward-compatibility:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [16.x, 18.x, 19.x, 20.x]
+                os: [ubuntu-latest, windows-latest, macos-latest]
+        steps:
+            - name: Set up Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v3
+              with:
+                node-version: ${{ matrix.node-version }}
+            - name: Check Node.js version
+              run: node -v
+            - name: Check OS
+              run: |
+                echo "Running on ${{ matrix.os }} and Node.js version ${{ matrix.node-version }}"
+
+    test-multiple-versions:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [16.x, 18.x, 20.x]
+                os: [ubuntu-latest, windows-latest]
+        defaults:
+          run:
+            working-directory: 15-matrices/react-app
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+            - name: Set up Node.js
+              uses: actions/setup-node@v3   
+              with:
+                node-version: ${{ matrix.node-version }}
+            
