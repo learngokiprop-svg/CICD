@@ -8,20 +8,36 @@ jobs:
     backward-compatibility:
         runs-on: ubuntu-latest
         strategy:
+            fail-fast: false
             matrix:
                 node-version: [16.x, 18.x, 19.x, 20.x]
                 os: [ubuntu-latest, windows-latest, macos-latest]
+                include:
+                - node-version: 15.x
+                  os: ubuntu-latest
+                - node-version: 21.x
+                  os: ubuntu-latest
+                  tags: experimental
+
         steps:
             - name: Set up Node.js ${{ matrix.node-version }}
               uses: actions/setup-node@v3
               with:
                 node-version: ${{ matrix.node-version }}
+            - name: fail if experimental
+              if: ${{ contains(matrix, 'tags') && matrix.tags == 'experimental' }}
+              run: |
+                echo "This is an experimental configuration. Failing the job."
+                exit 1
             - name: Check Node.js version
               run: node -v
             - name: Check OS
               run: |
                 echo "Running on ${{ matrix.os }} and Node.js version ${{ matrix.node-version }}"
-
+                sleep 10
+            - name:  UPload results
+              run: echo "Results uploaded for Node.js ${{ matrix.node-version }} on ${{ matrix.os }}"
+             
     test-multiple-versions:
         runs-on: ubuntu-latest
         strategy:
