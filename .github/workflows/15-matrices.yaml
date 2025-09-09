@@ -17,7 +17,7 @@ jobs:
                   os: ubuntu-latest
                 - node-version: 21.x
                   os: ubuntu-latest
-                  tags: experimental
+                  tag: experimental
 
         steps:
             - name: Set up Node.js ${{ matrix.node-version }}
@@ -25,7 +25,7 @@ jobs:
               with:
                 node-version: ${{ matrix.node-version }}
             - name: fail if experimental
-              if: ${{ contains(matrix, 'tags') && matrix.tags == 'experimental' }}
+                if matrix.tag == 'experimental'
               run: |
                 echo "This is an experimental configuration. Failing the job."
                 exit 1
