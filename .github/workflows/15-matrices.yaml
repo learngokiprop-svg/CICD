@@ -8,7 +8,7 @@ jobs:
     backward-compatibility:
         runs-on: ubuntu-latest
         strategy:
-            fail-fast: false
+            fail-fast: true
             matrix:
                 node-version: [16.x, 18.x, 19.x, 20.x]
                 os: [ubuntu-latest, windows-latest, macos-latest]
