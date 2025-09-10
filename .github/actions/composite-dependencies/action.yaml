@@ -1,0 +1,32 @@
+name: cache node dependencies
+description: Cache node dependencies based on OS and Node.js version
+inputs:
+  node-version:
+    description: 'Node.js version to use (e.g., 16.x, 18.x)'
+    required: true
+    default: '20.x'
+  os:
+    description: 'Operating system (e.g., ubuntu-latest, windows-latest, macos-latest)'
+    required: true
+    default: 'ubuntu-latest'
+  working-dir:
+    description: 'Working directory where package.json is located'
+    required: true
+    default: '.'
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Node.js ${{ inputs.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ inputs.node-version }}
+    - name: Cache node modules
+      id: cache
+      uses: actions/cache@v3
+      with:
+        path: ${{inputs.working-dir}}/node_modules
+        key: ${{ runner.os }}-node-${{ inputs.node-version }}-${{ hashFiles('**/package-lock.json') }}
+    - name: Install dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: npm ci
+      working-directory: ${{ inputs.working-dir }}
